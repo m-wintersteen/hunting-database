@@ -5,60 +5,57 @@
 
 /* Delete the tables if they already exist */
 drop table if exists Rating;
-drop table if exists Movie;
-drop table if exists Reviewer;
 
 
 /* Create the schema for our tables */
-create table Movie(
-mID integer primary key, 
-title text not null, 
-year integer not null, 
-director text);
-create table Reviewer(
-rID integer primary key, 
-name text not null);
-create table Rating(
-rID integer references Reviewer(rID), 
-mID integer references Movie(mID),
-stars integer, 
-ratingDate date,
-primary key (rID,mID,stars)
-);
+create table District(
+District_id integer primary key, 
+Area_coordinates text not null);
+
+create table Hunter(
+Hunter_id integer primary key, 
+Fname text not null,
+Minit text,
+Lname text not null,
+Resident text);
+
+create table Tags(
+Tag_id integer,
+Hunter_id integer references Hunter(Hunter_id), 
+District_id integer references District(District_id),
+Animal text,
+Bow_rifle text,
+Liscense_year integer,
+primary key (Tag_id,Hunter_id,District_id));
+
+create table Employee(
+Ssn integer primary key,
+Fname text not null,
+Minit text,
+Lname text not null,
+Hours_worked int);
+
+create table Hunting_trip(
+Trip_id integer,
+Tag_id integer references Tags(Tag_id),
+Hunter_id integer references Hunter(Hunter_id),
+ESsn integer references Employee(Ssn),
+Harvest text,
+Points integer,
+First_year text,
+Days integer);
+
+create table Harvest_estimate(
+Liscense_year integer,
+Distrit integer references District(District_id),
+Num_hunters integer,
+Residency text,
+Total_harvest integer,
+Days_hunted integer,
+Num_males integer,
+Num_females integer,
+Num_first_years integer,
+Num_points integer);
 
 
 /* Populate the tables with our data */
-insert into Movie values(101, 'Gone with the Wind', 1939, 'Victor Fleming');
-insert into Movie values(102, 'Star Wars', 1977, 'George Lucas');
-insert into Movie values(103, 'The Sound of Music', 1965, 'Robert Wise');
-insert into Movie values(104, 'E.T.', 1982, 'Steven Spielberg');
-insert into Movie values(105, 'Titanic', 1997, 'James Cameron');
-insert into Movie values(106, 'Snow White', 1937, null);
-insert into Movie values(107, 'Snow White', 1997, 'Michael Cohn');
-insert into Movie values(108, 'Avatar', 2009, 'James Cameron');
-insert into Movie values(109, 'Raiders of the Lost Ark', 1981, 'Steven Spielberg');
-
-insert into Reviewer values(201, 'Sarah Martinez');
-insert into Reviewer values(202, 'Daniel Lewis');
-insert into Reviewer values(203, 'Brittany Harris');
-insert into Reviewer values(204, 'Mike Anderson');
-insert into Reviewer values(205, 'Chris Jackson');
-insert into Reviewer values(206, 'Elizabeth Thomas');
-insert into Reviewer values(207, 'James Cameron');
-insert into Reviewer values(208, 'Ashley White');
-
-insert into Rating values(201, 101, 2, '2011-01-22');
-insert into Rating values(201, 101, 4, '2011-01-27');
-insert into Rating values(202, 106, 4, null);
-insert into Rating values(203, 103, 2, '2011-01-20');
-insert into Rating values(203, 108, 4, '2011-01-12');
-insert into Rating values(203, 108, 2, '2011-01-30');
-insert into Rating values(204, 101, 3, '2011-01-09');
-insert into Rating values(205, 103, 3, '2011-01-27');
-insert into Rating values(205, 104, 2, '2011-01-22');
-insert into Rating values(205, 108, 4, null);
-insert into Rating values(206, 107, 3, '2011-01-15');
-insert into Rating values(206, 106, 5, '2011-01-19');
-insert into Rating values(207, 107, 5, '2011-01-20');
-insert into Rating values(208, 104, 3, '2011-01-02');
-
