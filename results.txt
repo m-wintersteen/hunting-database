@@ -1,1 +1,5 @@
 huntingDB queries and results go here
+
+Using sqlite3
+
+.read Documents/CSCI440/hunting-database/huntingDB.sql

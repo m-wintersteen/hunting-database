@@ -4,7 +4,13 @@
  */
 
 /* Delete the tables if they already exist */
-drop table if exists Rating;
+drop table if exists District;
+drop table if exists Hunter;
+drop table if exists Tags;
+drop table if exists Employee;
+drop table if exists District;
+drop table if exists Hunting_trip;
+drop table if exists Harvest_estimate;
 
 
 /* Create the schema for our tables */
@@ -47,7 +53,7 @@ Days integer);
 
 create table Harvest_estimate(
 Liscense_year integer,
-Distrit integer references District(District_id),
+District integer references District(District_id),
 Num_hunters integer,
 Residency text,
 Total_harvest integer,
@@ -86,21 +92,21 @@ VALUES  (0001, 111111, 1, "Elk Bull", "Rifle", 2019),
         (0004, 123467, 4, "Elk Bull", "Rifle", 2017),
         (0005, 108457, 1, "Elk Cow", "Bow", 2019),
         (0006, 108457, 2, "Bear", "Rifle", 2019),
-        (0007, 123457, 3, "White Tail Deeer Doe", "Rifle", 2018),
+        (0007, 123457, 3, "White Tail Deer Doe", "Rifle", 2018),
         (0008, 123457, 7, "Elk Cow", "Bow", 2020); 
 
 INSERT INTO Employee (Ssn, Fname, Minit, Lname, Hours_worked)
 VALUES  (000112222, "Saul", "T", "Bowser", "40"),
         (111223333, "Jackson", "A", "Woofer", "20"),
         (222334444, "Thomas", "D", "Woofer", "32"),
-        (123456789, "Caleb", "West", "Couser", null);H
+        (123456789, "Caleb", "West", "Couser", NULL);
 
-INSERT INTO Hunting_trip(Trip_id, Tag_id, Hunter_id, ESsn, Points, First_year)
-VALUES  (001, 0002, 111111, 000112222, "Mule Deer Buck", 16, "false"),
-        (002, 0004, 123467, 111223333, "Elk Bull", 4, "true"),
-        (003, 0007, 123457, 222334444, "Mule Deer Doe", null, "false"),
+INSERT INTO Hunting_trip(Trip_id, Tag_id, Hunter_id, ESsn, Harvest, Points, First_year)
+VALUES  (001, 0002, 111111, 000112222, "true", 16, "false"),
+        (002, 0004, 123467, 111223333, "true", 4, "true"),
+        (003, 0007, 123457, 222334444, "false", null, null);
 
-INSERT INTO Harvest_estimate(Liscence_year, Disctrict, Num_hunters, Residency, Total_harvest, Days_hunted, Num_males, Num_females, Num_first_years, Num_points)
+INSERT INTO Harvest_estimate(Liscense_year, District, Num_hunters, Residency, Total_harvest, Days_hunted, Num_males, Num_females, Num_first_years, Num_points)
 VALUES  (2017, 1, 15, "Montana", 3, 15, 30, 25, 10, 50),
         (2018, 1, 15, "Montana", 3, 15, 15, 20, 6, 35),
         (2019, 1, 15, "Montana", 3, 15, 22, 30, 18, 45);
