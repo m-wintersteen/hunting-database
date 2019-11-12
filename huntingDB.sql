@@ -14,46 +14,48 @@ drop table if exists Harvest_estimate;
 
 
 /* Create the schema for our tables */
-create table District(
-District_id integer primary key,
-Area_coordinates text not null);
+CREATE TABLE District(
+District_id integer PRIMARY KEY,
+Area_coordinates text NOT NULL);
 
-create table Hunter(
-Hunter_id integer primary key,
-Fname text not null,
+CREATE TABLE Hunter(
+Hunter_id integer PRIMARY KEY,
+Fname text NOT NULL,
 Minit text,
-Lname text not null,
+Lname text NOT NULL,
 Resident text);
 
-create table Tags(
+CREATE TABLE Tags(
 Tag_id integer,
-Hunter_id integer references Hunter(Hunter_id),
-District_id integer references District(District_id),
-Animal text,
+Hunter_id integer REFERENCES Hunter(Hunter_id),
+District_id integer REFERENCES District(District_id),
+Animal text NOT NULL,
 Bow_rifle text,
-Liscense_year integer,
-primary key (Tag_id,Hunter_id,District_id));
+Liscense_year integer NOT NULL,
+PRIMARY KEY (Tag_id,Hunter_id,District_id));
 
-create table Employee(
-Ssn integer primary key,
-Fname text not null,
+CREATE TABLE Employee(
+Ssn integer PRIMARY KEY,
+Fname text NOT NULL,
 Minit text,
-Lname text not null,
+Lname text NOT NULL,
 Hours_worked int);
 
-create table Hunting_trip(
+CREATE TABLE Hunting_trip(
 Trip_id integer,
-Tag_id integer references Tags(Tag_id),
-Hunter_id integer references Hunter(Hunter_id),
-ESsn integer references Employee(Ssn),
-Harvest text,
+Tag_id integer REFERENCES Tags(Tag_id),
+Hunter_id integer REFERENCES Hunter(Hunter_id),
+ESsn integer REFERENCES Employee(Ssn),
+Harvest text NOT NULL,
 Points integer,
 First_year text,
-Days integer);
+Days integer,
+PRIMARY KEY (Trip_id, Tag_id, Hunter_id));
 
-create table Harvest_estimate(
-Liscense_year integer,
-District integer references District(District_id),
+CREATE TABLE Harvest_estimate(
+Liscense_year integer NOT NULL,
+District integer REFERENCES District(District_id),
+Animal text NOT NULL,
 Num_hunters integer,
 Residency text,
 Total_harvest integer,
@@ -61,7 +63,8 @@ Days_hunted integer,
 Num_males integer,
 Num_females integer,
 Num_first_years integer,
-Num_points integer);
+Num_points integer,
+PRIMARY KEY (Liscense_year, District, Animal));
 
 
 /* Populate the tables with our data */
@@ -109,9 +112,9 @@ VALUES  (001, 0002, 111111, 000112222, "true", 16, "false"),
         (004, 0006, 123456, 123455432, "true", 3, "false"),
         (005, 0003, 123467, 123456789, "false", null, null);
 
-INSERT INTO Harvest_estimate(Liscense_year, District, Num_hunters, Residency, Total_harvest, Days_hunted, Num_males, Num_females, Num_first_years, Num_points)
-VALUES  (2015, 1, 30, "Montana", 4, 15, 35, 25, 4, 40),
-        (2016, 1, 45, "Montana", 5, 15, 35, 25, 4, 43),  
-        (2017, 1, 15, "Montana", 3, 15, 30, 25, 10, 50),
-        (2018, 1, 15, "Montana", 3, 15, 15, 20, 6, 35),
-        (2019, 1, 15, "Montana", 3, 15, 22, 30, 18, 45);
+INSERT INTO Harvest_estimate(Liscense_year, District,Animal, Num_hunters, Residency, Total_harvest, Days_hunted, Num_males, Num_females, Num_first_years, Num_points)
+VALUES  (2015, 1,"Elk Bull", 30, "Montana", 4, 15, 35, 25, 4, 40),
+        (2016, 1,"Mule Deer Buck", 45, "Montana", 5, 15, 35, 25, 4, 43),  
+        (2017, 1,"Elk Cow", 15, "Montana", 3, 15, 30, 25, 10, 50),
+        (2018, 1,"Bear", 15, "Montana", 3, 15, 15, 20, 6, 35),
+        (2019, 1,"White Tail Deer Doe", 15, "Montana", 3, 15, 22, 30, 18, 45);
